@@ -1,0 +1,2 @@
+package com.example.takeitapp.presentation.publicationDetailsScreen
+
