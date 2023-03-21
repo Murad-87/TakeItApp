@@ -3,8 +3,8 @@ package com.example.takeitapp.presentation
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
-import com.example.takeitapp.ui.bottom_navigation.MyBottomNavigation
-import com.example.takeitapp.ui.bottom_navigation.MyNavGraph
+import com.example.takeitapp.presentation.ui.bottom_navigation.MyBottomNavigation
+import com.example.takeitapp.presentation.ui.bottom_navigation.MyNavGraph
 
 @Composable
 fun MainScreen() {
@@ -15,4 +15,9 @@ fun MainScreen() {
         }) {
         MyNavGraph(navHostController = navController)
     }
+}
+
+@Composable
+fun MyNavigation() {
+
 }
