@@ -21,22 +21,25 @@ object DataModule {
     @Singleton
     fun provideRepository(
         dao: TakeItDao,
-    ) : TakeItRepository {
+    ): TakeItRepository {
         return TakeItRepositoryImpl(dao)
-    }
-    
-    @Provides
-    @Singleton
-    fun provideTakeItDao(application: Application) : TakeItDao {
-        return TakeItAppDatabase.getInstance(application).takeItDao()
     }
 
     @Provides
     @Singleton
-    fun provideTakeItDatabase(application: Application) : TakeItAppDatabase {
-        return Room.databaseBuilder(application, TakeItAppDatabase::class.java, TakeItAppDatabase.DB_NAME)
+    fun provideTakeItDatabase(application: Application): TakeItAppDatabase {
+        return Room.databaseBuilder(
+            application,
+            TakeItAppDatabase::class.java,
+            TakeItAppDatabase.DB_NAME
+        )
             .fallbackToDestructiveMigration()
             .build()
     }
 
+    @Provides
+    @Singleton
+    fun provideTakeItDao(database: TakeItAppDatabase): TakeItDao {
+        return database.takeItDao()
+    }
 }

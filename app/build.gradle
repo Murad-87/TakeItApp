@@ -79,8 +79,8 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:2.42"
 
     // Room
-    implementation("androidx.room:room-runtime:2.5.0")
-    annotationProcessor("androidx.room:room-compiler:2.5.0")
+    implementation "androidx.room:room-runtime:2.5.0"
+    kapt "androidx.room:room-compiler:2.5.0"
 
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:2.5.0")
@@ -101,6 +101,5 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
 
     //AsyncImage - coil
-    implementation("io.coil-kt:coil-compose:2.0.0-rc01")
-
+    implementation "io.coil-kt:coil-compose:2.0.0-rc01"
 }

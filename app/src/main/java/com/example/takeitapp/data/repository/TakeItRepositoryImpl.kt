@@ -1,7 +1,6 @@
 package com.example.takeitapp.data.repository
 
 import com.example.takeitapp.data.local.dao.TakeItDao
-import com.example.takeitapp.data.local.model.TakeItDbModel
 import com.example.takeitapp.data.repository.mapper.toEntity
 import com.example.takeitapp.domain.model.TakeItEntity
 import com.example.takeitapp.domain.repository.TakeItRepository
@@ -16,7 +15,8 @@ class TakeItRepositoryImpl @Inject constructor(
     }
 
     override suspend fun savePublication(list: TakeItEntity) {
-        TODO("Not yet implemented")
+//        list.toDto()
+//        dao.insertPublication()
     }
 
     override suspend fun getAllPublication(): List<TakeItEntity> {

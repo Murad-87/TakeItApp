@@ -6,9 +6,9 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class TakeItEntity(
     val publicationId: Long,
-    val title: String,
-    val imageUrl: String,
-    val description: String,
-    val address: String,
-    val number: String
+    var title: String,
+    var imageUrl: String,
+    var description: String,
+    var address: String,
+    var number: String
 ) : Parcelable

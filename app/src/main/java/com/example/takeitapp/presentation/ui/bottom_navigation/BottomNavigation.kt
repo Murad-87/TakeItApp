@@ -28,7 +28,12 @@ fun MyBottomNavigation(
             BottomNavigationItem(
                 selected = currentRout == item.route,
                 onClick = {
-                    navController.navigate(item.route)
+                    if (currentRout != item.route) {
+                        navController.graph.startDestinationRoute?.let {
+                            navController.popBackStack(it, true)
+                        }
+                        navController.navigate(item.route)
+                    }
                 },
                 icon = {
                     Icon(
