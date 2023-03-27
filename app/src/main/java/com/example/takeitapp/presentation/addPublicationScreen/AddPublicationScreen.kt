@@ -1,33 +1,49 @@
 package com.example.takeitapp.presentation.addPublicationScreen
 
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.takeitapp.R
 import com.example.takeitapp.domain.model.TakeItEntity
 
 @Composable
-fun AddPublicationScreen(takeIt: TakeItEntity) {
-    //val viewModel = hiltViewModel<AddPublicationViewModel>()
+fun AddPublicationScreen(takeItEntity: TakeItEntity, viewModel: AddPublicationViewModel) {
+
+    val selectedPhotos = remember { mutableStateOf<Uri?>(null) }
+    val titlePublicationText = remember { mutableStateOf("") }
+    val descriptionText = remember { mutableStateOf("") }
+    val addressText = remember { mutableStateOf("") }
+    val numberText = remember { mutableStateOf("") }
+    val context = LocalContext.current.applicationContext
+
+//    val setGalleryImages = remember { mutableStateOf<List<Uri>>(emptyList()) }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -36,34 +52,52 @@ fun AddPublicationScreen(takeIt: TakeItEntity) {
             .verticalScroll(state = rememberScrollState())
             .padding(8.dp),
     ) {
-        AddPhoto()
+        PhotoSelector(selectedPhotos = selectedPhotos)
         Spacer(modifier = Modifier.height(4.dp))
-        AddInfoPublication(title = takeIt.title, description = takeIt.description)
+        Description(
+            titlePublicationText = titlePublicationText,
+            descriptionText = descriptionText
+        )
         Spacer(modifier = Modifier.height(4.dp))
-        AddAddress()
+        Address(addressText = addressText)
         Spacer(modifier = Modifier.height(4.dp))
-        AddNumber()
+        Number(numberText = numberText)
         Spacer(modifier = Modifier.height(4.dp))
-        AddButton()
+        AddButton(onClick = {
+            if (titlePublicationText.value.isNotBlank() && descriptionText.value.isNotBlank()
+                && addressText.value.isNotBlank() && numberText.value.isNotBlank()
+            ) {
+                viewModel.saveData(takeItEntity)
+                Log.d("TEST", "${viewModel.saveData(takeItEntity)}")
+                Toast
+                    .makeText(context, "Публикация добавлена", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                Toast
+                    .makeText(context, "Заполните все поля", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        })
     }
 }
 
 @Composable
-fun AddPhoto() {
+fun PhotoSelector(
+    selectedPhotos: MutableState<Uri?>
+) {
     val context = LocalContext.current.applicationContext
-    val (selectedPhotos, setGalleryImages) = remember { mutableStateOf<List<Uri>>(emptyList()) }
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetMultipleContents(),
-        onResult = { uris ->
-            setGalleryImages(uris.take(2))
+    //  val setGalleryImages by remember { mutableStateOf<List<Uri>>(emptyList()) }
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {uri ->
+        if (uri != null) {
+            selectedPhotos.value = uri
         }
-    )
+    }
     Card(
         modifier = Modifier
             .clickable {
                 launcher.launch("image/*")
                 Toast
-                    .makeText(context, "Добавить фото", Toast.LENGTH_SHORT)
+                    .makeText(context, "Выберите фото", Toast.LENGTH_SHORT)
                     .show()
             }
             .fillMaxWidth()
@@ -78,13 +112,13 @@ fun AddPhoto() {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            if (selectedPhotos.isNotEmpty()) {
-                selectedPhotos.forEach { photo ->
-                    AsyncImage(
-                        model = photo,
-                        contentDescription = ""
-                    )
-                }
+            if (selectedPhotos.value != null) {
+                AsyncImage(
+                    model = selectedPhotos.value,
+                    contentDescription = "",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                )
             } else {
                 Image(
                     painter = painterResource(id = R.drawable.ic_add_photo),
@@ -97,9 +131,11 @@ fun AddPhoto() {
 }
 
 @Composable
-fun AddInfoPublication(title: String, description: String) {
-    var titlePublicationText by remember { mutableStateOf("") }
-    var descriptionText by remember { mutableStateOf("") }
+fun Description(
+    titlePublicationText: MutableState<String>,
+    descriptionText: MutableState<String>
+) {
+    val focusManager = LocalFocusManager.current
     val maxChar = 20
     val maxCharDescription = 220
     Column(
@@ -109,8 +145,8 @@ fun AddInfoPublication(title: String, description: String) {
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
-            value = titlePublicationText,
-            onValueChange = { if (it.length <= maxChar) titlePublicationText = it },
+            value = titlePublicationText.value,
+            onValueChange = { if (it.length <= maxChar) titlePublicationText.value = it },
             label = {
                 Text(
                     text = "Название",
@@ -120,6 +156,13 @@ fun AddInfoPublication(title: String, description: String) {
             },
             placeholder = { Text(text = "Название предмета...") },
             textStyle = TextStyle.Default.copy(fontSize = 24.sp),
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Text
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = { focusManager.clearFocus() }
+            ),
         )
         Spacer(modifier = Modifier.height(5.dp))
         Box(
@@ -128,8 +171,8 @@ fun AddInfoPublication(title: String, description: String) {
                 .height(170.dp)
         ) {
             OutlinedTextField(
-                value = descriptionText,
-                onValueChange = { if (it.length <= maxCharDescription) descriptionText = it },
+                value = descriptionText.value,
+                onValueChange = { if (it.length <= maxCharDescription) descriptionText.value = it },
                 label = {
                     Text(
                         text = "Описание",
@@ -139,6 +182,13 @@ fun AddInfoPublication(title: String, description: String) {
                 },
                 placeholder = { Text(text = "Добавить описание..") },
                 textStyle = TextStyle.Default.copy(fontSize = 16.sp),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done,
+                    keyboardType = KeyboardType.Text
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = { focusManager.clearFocus() }
+                ),
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -146,56 +196,58 @@ fun AddInfoPublication(title: String, description: String) {
 }
 
 @Composable
-fun AddAddress() {
-    var addressText by remember { mutableStateOf("") }
-    Box() {
-        OutlinedTextField(
-            value = addressText,
-            onValueChange = { addressText = it },
-            label = {
-                Text(
-                    text = "Адрес",
-                    style = TextStyle(color = Color.Gray),
-                    fontWeight = FontWeight.Bold,
-                )
-            },
-            placeholder = { Text(text = "Указать адрес..") },
-            textStyle = TextStyle.Default.copy(fontSize = 16.sp),
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
+fun Address(addressText: MutableState<String>) {
+
+    OutlinedTextField(
+        value = addressText.value,
+        onValueChange = { addressText.value = it },
+        label = {
+            Text(
+                text = "Адрес",
+                style = TextStyle(color = Color.Gray),
+                fontWeight = FontWeight.Bold,
+            )
+        },
+        placeholder = { Text(text = "Указать адрес..") },
+        textStyle = TextStyle.Default.copy(fontSize = 16.sp),
+        modifier = Modifier.fillMaxWidth(),
+        maxLines = 2,
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done,
+            keyboardType = KeyboardType.Text
+        ),
+    )
 }
 
 @Composable
-fun AddNumber() {
-    var numberText by remember { mutableStateOf("") }
+fun Number(numberText: MutableState<String>) {
     val maxCharNumber = 11
 
-    Box() {
-        OutlinedTextField(
-            value = numberText,
-            onValueChange = { if (it.length <= maxCharNumber) numberText = it },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            label = {
-                Text(
-                    text = "Номер",
-                    style = TextStyle(color = Color.Gray),
-                    fontWeight = FontWeight.Bold,
-                )
-            },
-            placeholder = { Text(text = "Номер для связи..") },
-            textStyle = TextStyle.Default.copy(fontSize = 16.sp),
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
+    OutlinedTextField(
+        value = numberText.value,
+        onValueChange = { if (it.length <= maxCharNumber) numberText.value = it },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        label = {
+            Text(
+                text = "Номер",
+                style = TextStyle(color = Color.Gray),
+                fontWeight = FontWeight.Bold,
+            )
+        },
+        placeholder = { Text(text = "Номер для связи..") },
+        textStyle = TextStyle.Default.copy(fontSize = 16.sp),
+        modifier = Modifier.fillMaxWidth()
+    )
+
 }
 
 @Composable
-fun AddButton() {
-    val context = LocalContext.current
+fun AddButton(
+    onClick: () -> Unit
+) {
     Button(
-        onClick = { Toast.makeText(context, "Публикация добавлена", Toast.LENGTH_SHORT).show() },
+        onClick = { onClick.invoke() },
         colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
         modifier = Modifier
             .fillMaxWidth()

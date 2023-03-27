@@ -1,6 +1,5 @@
 package com.example.takeitapp.presentation.homeScreen
 
-import android.widget.ImageView.ScaleType
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -42,7 +41,6 @@ fun MyHomeScreen() {
                 ItemPublication(text = item)
             }
         }
-
     }
 }
 
