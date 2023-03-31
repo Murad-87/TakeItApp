@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -34,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.takeitapp.R
+import com.example.takeitapp.presentation.ui.theme.Shapes
 import com.example.takeitapp.utils.GuestDialog
 
 @Composable
@@ -152,7 +154,8 @@ fun AddInfoRegistration(
                 }
             },
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(start = 8.dp, end = 8.dp),
             label = {
                 Text(
                     text = "Имя",
@@ -183,7 +186,7 @@ fun AddInfoRegistration(
                         modifier = Modifier.widthIn(60.dp)
                     )
                 }
-            }
+            },
         )
 
         Spacer(modifier = Modifier.height(6.dp))
@@ -199,7 +202,8 @@ fun AddInfoRegistration(
             },
             leadingIcon = { Icon(imageVector = Icons.Default.Phone, contentDescription = "") },
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(start = 8.dp, end = 8.dp),
             label = {
                 Text(
                     text = "Номер",
@@ -251,7 +255,8 @@ fun AddInfoRegistration(
                 }
             },
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(start = 8.dp, end = 8.dp),
             label = {
                 Text(
                     text = "Пароль",
