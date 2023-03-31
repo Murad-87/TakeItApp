@@ -1,10 +1,13 @@
 package com.example.takeitapp.di
 
+import android.content.Context
 import com.example.takeitapp.data.api.TakeItApi
+import com.example.takeitapp.utils.ApiHelper
 import com.example.takeitapp.utils.Constants.Companion.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -15,6 +18,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+    @Singleton
+    @Provides
+    fun provideApiHelper(@ApplicationContext app: Context) : ApiHelper {
+        return ApiHelper(app)
+    }
 
     @Singleton
     @Provides
@@ -32,7 +41,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient) =
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -41,5 +50,5 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideTakeItApi(retrofit: Retrofit) = retrofit.create(TakeItApi::class.java)
+    fun provideTakeItApi(retrofit: Retrofit): TakeItApi = retrofit.create(TakeItApi::class.java)
 }

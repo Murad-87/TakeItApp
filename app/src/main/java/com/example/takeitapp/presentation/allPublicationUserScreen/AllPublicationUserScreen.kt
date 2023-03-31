@@ -52,7 +52,7 @@ fun ItemPublicationUser(text: String) {
                 painter = painterResource(id = R.drawable.ic_simple_publication),
                 contentDescription = "",
                 modifier = Modifier
-                    .background(color = Color.Yellow)
+                    .background(color = Color.Cyan)
                     .align(Alignment.CenterVertically)
                     .weight(0.5f)
                     .fillMaxSize(1f),

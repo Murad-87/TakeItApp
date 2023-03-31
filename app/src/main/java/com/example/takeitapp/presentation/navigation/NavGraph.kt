@@ -1,4 +1,4 @@
-package com.example.takeitapp.presentation.ui.bottom_navigation
+package com.example.takeitapp.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,15 +10,15 @@ import com.example.takeitapp.domain.model.TakeItEntity
 import com.example.takeitapp.presentation.addPublicationScreen.AddPublicationScreen
 import com.example.takeitapp.presentation.addPublicationScreen.AddPublicationViewModel
 import com.example.takeitapp.presentation.allPublicationUserScreen.AllPublicationUserScreen
+import com.example.takeitapp.presentation.homeScreen.HomeViewModel
 import com.example.takeitapp.presentation.homeScreen.MyHomeScreen
-import com.example.takeitapp.presentation.navigation.NavigationScreens
 import com.example.takeitapp.presentation.registrationScreen.RegistrationScreen
 import com.example.takeitapp.presentation.splashScreen.SplashScreenApp
 
 @Composable
 fun MyNavGraph(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     NavHost(
         navController = navController,
@@ -28,7 +28,8 @@ fun MyNavGraph(
             SplashScreenApp(navController = navController)
         }
         composable("home") {
-            MyHomeScreen()
+            val viewModel = hiltViewModel<HomeViewModel>()
+            MyHomeScreen(navController = navController, viewModel)
         }
         composable("add") {
             val viewModel = hiltViewModel<AddPublicationViewModel>()
