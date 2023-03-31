@@ -28,11 +28,11 @@ fun SplashScreenApp(navController: NavController) {
     }
     val alphaAnimation = animateFloatAsState(
         targetValue = if (startAnimate) 1f else 0f,
-        animationSpec = tween(durationMillis = 3000)
+        animationSpec = tween(durationMillis = 2500)
     )
     LaunchedEffect(key1 = true) {
         startAnimate = true
-        delay(4000)
+        delay(2500)
         navController.navigate("registration_screen")
     }
     Splash(alpha = alphaAnimation.value)
@@ -42,8 +42,7 @@ fun SplashScreenApp(navController: NavController) {
 fun Splash(alpha: Float) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.LightGray),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
