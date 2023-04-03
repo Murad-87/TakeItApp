@@ -14,7 +14,7 @@ class AddPublicationViewModel @Inject constructor(
     private val savePublicationUseCase: SavePublicationUseCase
 ) : ViewModel() {
 
-    fun saveData(dataEntity: TakeItEntity) {
+    fun insertData(dataEntity: TakeItEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             savePublicationUseCase.invoke(dataEntity)
         }
