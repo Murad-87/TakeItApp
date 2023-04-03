@@ -10,10 +10,12 @@ import com.example.takeitapp.domain.model.TakeItEntity
 import com.example.takeitapp.presentation.addPublicationScreen.AddPublicationScreen
 import com.example.takeitapp.presentation.addPublicationScreen.AddPublicationViewModel
 import com.example.takeitapp.presentation.allPublicationUserScreen.AllPublicationUserScreen
+import com.example.takeitapp.presentation.allPublicationUserScreen.AllPublicationUserViewModel
 import com.example.takeitapp.presentation.homeScreen.HomeViewModel
 import com.example.takeitapp.presentation.homeScreen.MyHomeScreen
 import com.example.takeitapp.presentation.registrationScreen.RegistrationScreen
 import com.example.takeitapp.presentation.splashScreen.SplashScreenApp
+import com.example.takeitapp.presentation.userPublicationDetailsScreen.UserPublicationDetailsScreen
 
 @Composable
 fun MyNavGraph(
@@ -34,19 +36,13 @@ fun MyNavGraph(
         composable("add") {
             val viewModel = hiltViewModel<AddPublicationViewModel>()
             AddPublicationScreen(
-                TakeItEntity(
-                    publicationId = 0,
-                    title = "",
-                    imageUrl = "",
-                    description = "",
-                    address = "",
-                    number = ""
-                ),
+                navController = navController,
                 viewModel = viewModel
             )
         }
         composable("my publication") {
-            AllPublicationUserScreen()
+            val viewModel = hiltViewModel<AllPublicationUserViewModel>()
+            AllPublicationUserScreen(navController = navController, viewModel)
         }
         composable(route = NavigationScreens.RegistrationScreen.route) {
             RegistrationScreen(navController = navController)
@@ -58,7 +54,7 @@ fun MyNavGraph(
 
         }
         composable(route = NavigationScreens.UserPublicationDetailsScreen.route) {
-
+            UserPublicationDetailsScreen()
         }
     }
 }
