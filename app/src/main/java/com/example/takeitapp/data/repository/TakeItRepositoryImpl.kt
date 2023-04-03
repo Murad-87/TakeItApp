@@ -2,6 +2,7 @@ package com.example.takeitapp.data.repository
 
 import com.example.takeitapp.data.api.TakeItApi
 import com.example.takeitapp.data.local.dao.TakeItDao
+import com.example.takeitapp.data.repository.mapper.toDto
 import com.example.takeitapp.data.repository.mapper.toEntity
 import com.example.takeitapp.domain.model.TakeItEntity
 import com.example.takeitapp.domain.model.TestMoviesEntity
@@ -15,13 +16,13 @@ class TakeItRepositoryImpl @Inject constructor(
     private val apiHelper: ApiHelper
 ) : TakeItRepository {
 
-    override suspend fun getUserAllPublication(): TakeItEntity {
-        TODO("Not yet implemented")
+    override suspend fun getUserAllPublication(): List<TakeItEntity> {
+        val data = dao.getAllPublication()
+        return data.map { it.toEntity() }
     }
 
-    override suspend fun savePublication(list: TakeItEntity) {
-//        list.toDto()
-//        dao.insertPublication()
+    override suspend fun savePublication(publication: TakeItEntity) {
+        dao.insertPublication(publication.toDto())
     }
 
 

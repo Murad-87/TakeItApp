@@ -1,12 +1,13 @@
 package com.example.takeitapp.presentation.allPublicationUserScreen
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.takeitapp.domain.GetUserAllPublicationUseCase
 import com.example.takeitapp.domain.model.TakeItEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,10 +16,23 @@ class AllPublicationUserViewModel @Inject constructor(
     private val getUserAllPublicationUseCase: GetUserAllPublicationUseCase
 ) : ViewModel() {
 
-    private val _allPublicationUser: MutableLiveData<List<TakeItEntity>> = MutableLiveData()
-    val allPublicationUser: LiveData<List<TakeItEntity>> get() = _allPublicationUser
+    private val _allPublicationUser = MutableStateFlow<List<TakeItEntity>>(emptyList())
+    val allPublicationUser: StateFlow<List<TakeItEntity>>
+        get() = _allPublicationUser.asStateFlow()
 
-    fun getAllPublication() {
-        viewModelScope.launch {  }
+    init {
+        getAllPublication()
+    }
+
+    private fun getAllPublication() {
+        viewModelScope.launch {
+            runCatching {
+                getUserAllPublicationUseCase.invoke()
+            }.onSuccess {publicationList ->
+                _allPublicationUser.value = publicationList
+            }.onFailure {throwable ->
+                error(throwable)
+            }
+        }
     }
 }

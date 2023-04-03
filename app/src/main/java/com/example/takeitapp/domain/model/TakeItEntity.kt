@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class TakeItEntity(
-    val publicationId: Long,
+    val publicationId: Long? = null,
     var title: String,
     var imageUrl: String,
     var description: String,

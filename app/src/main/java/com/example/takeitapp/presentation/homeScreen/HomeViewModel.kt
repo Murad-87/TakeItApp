@@ -24,7 +24,7 @@ class HomeViewModel @Inject constructor(
         getAllMovies()
     }
 
-    fun getAllMovies() {
+    private fun getAllMovies() {
         viewModelScope.launch {
             runCatching {
                 useCase.invoke()
