@@ -15,7 +15,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun MyTopAppBar() {
+fun MyTopAppBar(
+    onNavigationItemClick: () -> Unit
+) {
 
     TopAppBar(
         title = {
@@ -28,10 +30,10 @@ fun MyTopAppBar() {
             }
         },
         navigationIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = onNavigationItemClick) {
                 Icon(
                     imageVector = Icons.Default.Menu,
-                    contentDescription = "Icon"
+                    contentDescription = "Toggle drawer"
                 )
             }
         },
