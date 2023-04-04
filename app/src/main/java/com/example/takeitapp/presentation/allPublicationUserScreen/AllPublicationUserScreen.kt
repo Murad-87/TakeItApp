@@ -18,7 +18,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.example.takeitapp.domain.model.TakeItEntity
 
@@ -32,14 +31,20 @@ fun AllPublicationUserScreen(
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        LazyColumn(
-            contentPadding = PaddingValues(6.dp)
-        ) {
-            items(observedState) { item ->
-                ItemPublicationUser(item = item, navController = navController)
+        if (observedState != null) {
+            LazyColumn(
+                contentPadding = PaddingValues(6.dp)
+            ) {
+                items(observedState) { item ->
+                    ItemPublicationUser(item = item, navController = navController)
+                }
             }
+        } else {
+            Text(text = "У вас еще нет своих публикаций.")
         }
     }
 }

@@ -59,7 +59,7 @@ fun ItemPublication(
             .size(200.dp)
             .padding(4.dp)
             .clickable {
-                // TODO реализовать переход на детальный экран
+                navController.navigate("publication_details_screen")
             },
         elevation = 2.dp
     ) {
