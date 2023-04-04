@@ -1,4 +1,4 @@
-package com.example.takeitapp.presentation.publicationDetailsScreen
+package com.example.takeitapp.presentation.settingsScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,7 +12,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun PublicationDetailsScreen() {
+fun UserSettingsScreen() {
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -20,6 +21,6 @@ fun PublicationDetailsScreen() {
             .fillMaxSize()
             .padding(horizontal = 10.dp, vertical = 8.dp)
     ) {
-        Text(text = "Здесь будет детальная информация о публикации", fontSize = 20.sp)
+        Text(text = "Вы на экране настроек", fontSize = 20.sp)
     }
 }
