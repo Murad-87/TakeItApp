@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.takeitapp.R
+import com.example.takeitapp.utils.InputVisualTransformation
 
 @Preview(showBackground = true)
 @Composable
@@ -38,18 +39,16 @@ fun LoginScreen() {
     var loginNumber by remember {
         mutableStateOf("")
     }
-    val maxCharLoginNumber = 11
+    val maxCharLoginNumber = 10
     val focusManager = LocalFocusManager.current
     var remainingCharsLoginNumber by remember {
         mutableStateOf(maxCharLoginNumber)
     }
-    var loginPassword by remember {
-        mutableStateOf("")
-    }
+    var loginPassword by remember { mutableStateOf("") }
     val maxCharLoginPassword = 10
-    var remainingCharsLoginPassword by remember {
-        mutableStateOf(maxCharLoginPassword)
-    }
+    var remainingCharsLoginPassword by remember { mutableStateOf(maxCharLoginPassword) }
+    val mask = "+7 (000) 000-00-00"
+    val transformer = InputVisualTransformation(mask = mask)
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -85,6 +84,7 @@ fun LoginScreen() {
                     remainingCharsLoginNumber = maxCharLoginNumber - it.length
                 }
             },
+            visualTransformation = transformer,
             leadingIcon = { Icon(imageVector = Icons.Default.Phone, contentDescription = "") },
             modifier = Modifier
                 .fillMaxWidth()
@@ -202,7 +202,9 @@ fun LoginScreen() {
         ) {
             Text(text = "Войти", fontSize = 18.sp)
         }
+
         Spacer(modifier = Modifier.height(6.dp))
+
         Text(
             text = "Забыли пароль?",
             style = TextStyle(textDecoration = TextDecoration.Underline, color = Color.Black),

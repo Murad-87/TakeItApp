@@ -7,52 +7,80 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.example.takeitapp.R
 import com.example.takeitapp.domain.model.TakeItEntity
+import com.example.takeitapp.utils.MyAlertDialog
 
 @Composable
 fun AllPublicationUserScreen(
     navController: NavController,
-    viewModel: AllPublicationUserViewModel
+    viewModel: AllPublicationUserViewModel,
 ) {
 
     val observedState by viewModel.allPublicationUser.collectAsState()
+    val dialogState = remember { mutableStateOf(false) }
+    val selectedItem = remember { mutableStateOf<TakeItEntity?>(null) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        if (observedState != null) {
-            LazyColumn(
-                contentPadding = PaddingValues(6.dp)
-            ) {
-                items(observedState) { item ->
-                    ItemPublicationUser(item = item, navController = navController)
-                }
+    if (observedState.isNotEmpty()) {
+        LazyColumn(
+            contentPadding = PaddingValues(6.dp)
+        ) {
+            items(observedState) { item ->
+                ItemPublicationUser(
+                    item,
+                    navController,
+                    dialogState,
+                    selectedItem
+                )
             }
-        } else {
-            Text(text = "У вас еще нет своих публикаций.")
         }
+    } else {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = stringResource(id = R.string.all_publication_user_no_publications),
+                fontSize = 18.sp
+            )
+        }
+    }
+
+    if (dialogState.value && selectedItem.value != null) {
+        MyAlertDialog(
+            title = "Удаление",
+            message = "Вы действительно хотите удалить эту публикацию?",
+            onConfirm = {
+                viewModel.deletePublication(selectedItem.value!!)
+                selectedItem.value = null
+                dialogState.value = false
+            },
+            onCancel = { dialogState.value = false },
+            dialogState = dialogState
+        )
     }
 }
 
 @Composable
 fun ItemPublicationUser(
     item: TakeItEntity,
-    navController: NavController
+    navController: NavController,
+    dialogState: MutableState<Boolean>,
+    selectedItem: MutableState<TakeItEntity?>
 ) {
     Card(
         modifier = Modifier
@@ -84,6 +112,14 @@ fun ItemPublicationUser(
                     .padding(start = 4.dp)
                     .align(Alignment.Top)
                     .weight(0.5f)
+            )
+            Icon(
+                painter = painterResource(id = R.drawable.ic_for_card_menu),
+                contentDescription = "",
+                modifier = Modifier.clickable {
+                    dialogState.value = true
+                    selectedItem.value = item
+                }
             )
         }
     }

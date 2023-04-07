@@ -6,26 +6,29 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import com.example.takeitapp.R
 
 @Composable
-fun GuestDialog(
+fun MyAlertDialog(
+    title: String,
+    message: String,
+    onConfirm: () -> Unit,
+    onCancel: () -> Unit,
     dialogState: MutableState<Boolean>,
-    navController: NavController
 ) {
     AlertDialog(onDismissRequest = {
         dialogState.value = false
     },
         confirmButton = {
             TextButton(onClick = {
-                dialogState.value = false
-                navController.navigate("home")
+                onConfirm()
             }) {
                 Text(
-                    text = "Продолжить",
+                    text = stringResource(id = R.string.confirm_button_yes_string),
                     style = TextStyle(color = Color.Black),
                     fontSize = 16.sp
                 )
@@ -33,10 +36,10 @@ fun GuestDialog(
         },
         dismissButton = {
             TextButton(onClick = {
-                dialogState.value = false
+                onCancel()
             }) {
                 Text(
-                    text = "Отмена",
+                    text = stringResource(id = R.string.dismiss_button_cancel_string),
                     style = TextStyle(color = Color.Black),
                     fontSize = 16.sp
                 )
@@ -44,14 +47,14 @@ fun GuestDialog(
         },
         title = {
             Text(
-                text = "Без регистрации",
+                text = title,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
             )
         },
         text = {
             Text(
-                text = "Вы не сможете выкладывать свои публикации",
+                text = message,
                 style = TextStyle(color = Color.Black)
             )
         }

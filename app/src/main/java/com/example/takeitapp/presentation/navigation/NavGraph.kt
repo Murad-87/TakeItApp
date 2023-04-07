@@ -33,18 +33,18 @@ fun MyNavGraph(
         composable(route = NavigationScreens.SplashScreen.route) {
             SplashScreenApp(navController = navController)
         }
-        composable("home") {
+        composable("home_screen") {
             val viewModel = hiltViewModel<HomeViewModel>()
             MyHomeScreen(navController = navController, viewModel)
         }
-        composable("add") {
+        composable("add_screen") {
             val viewModel = hiltViewModel<AddPublicationViewModel>()
             AddPublicationScreen(
                 navController = navController,
                 viewModel = viewModel
             )
         }
-        composable("my publication") {
+        composable("all_user_publication") {
             val viewModel = hiltViewModel<AllPublicationUserViewModel>()
             AllPublicationUserScreen(navController = navController, viewModel)
         }
