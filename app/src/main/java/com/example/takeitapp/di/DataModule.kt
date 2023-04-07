@@ -1,7 +1,6 @@
 package com.example.takeitapp.di
 
 import android.app.Application
-import android.content.Context
 import androidx.room.Room
 import com.example.takeitapp.data.api.TakeItApi
 import com.example.takeitapp.data.local.dao.TakeItDao

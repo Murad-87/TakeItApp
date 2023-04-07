@@ -32,14 +32,14 @@ fun MainScreen() {
     val scope = rememberCoroutineScope()
 
     showBottomBar = when (navBackStackEntry?.destination?.route) {
-        "home" -> true
-        "add" -> true
-        "my publication" -> true
+        "home_screen" -> true
+        "add_screen" -> true
+        "all_user_publication" -> true
         else -> false
     }
 
     showTopAppBar = when (navBackStackEntry?.destination?.route) {
-        "home" -> true
+        "home_screen" -> true
         else -> false
     }
 

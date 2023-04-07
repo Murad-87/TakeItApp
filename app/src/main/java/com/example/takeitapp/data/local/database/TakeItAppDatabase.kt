@@ -2,7 +2,6 @@ package com.example.takeitapp.data.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 import com.example.takeitapp.data.local.dao.TakeItDao
 import com.example.takeitapp.data.local.model.TakeItDbModel
 

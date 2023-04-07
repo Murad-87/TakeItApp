@@ -1,10 +1,8 @@
 package com.example.takeitapp.data.local.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.takeitapp.data.local.model.TakeItDbModel
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TakeItDao {
@@ -13,6 +11,9 @@ interface TakeItDao {
     suspend fun insertPublication(publication: TakeItDbModel)
 
     @Query("SELECT * FROM table_publication")
-    suspend fun getAllPublication() : List<TakeItDbModel>
+    fun getAllPublication() : Flow<List<TakeItDbModel>>
+
+    @Delete
+    suspend fun deletePublicationUser(item : TakeItDbModel)
 
 }

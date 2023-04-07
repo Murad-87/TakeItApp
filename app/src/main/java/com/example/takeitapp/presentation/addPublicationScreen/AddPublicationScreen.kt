@@ -19,6 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -29,6 +30,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.takeitapp.R
 import com.example.takeitapp.domain.model.TakeItEntity
+import com.example.takeitapp.utils.InputVisualTransformation
 
 @Composable
 fun AddPublicationScreen(
@@ -54,10 +56,12 @@ fun AddPublicationScreen(
             }
         }
 
-    val maxCharNumber = 11
+    val maxCharNumber = 10
     val focusManager = LocalFocusManager.current
     val maxChar = 20
     val maxCharDescription = 220
+    val mask = "+7 (000) 000-00-00"
+    val transformer = InputVisualTransformation(mask = mask)
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -101,7 +105,10 @@ fun AddPublicationScreen(
                         painter = painterResource(id = R.drawable.ic_add_photo),
                         contentDescription = ""
                     )
-                    Text(text = "Добавить фото", fontSize = 16.sp)
+                    Text(
+                        text = stringResource(id = R.string.add_photo_string),
+                        fontSize = 16.sp
+                    )
                 }
             }
         }
@@ -116,12 +123,16 @@ fun AddPublicationScreen(
             onValueChange = { if (it.length <= maxChar) titlePublicationText = it },
             label = {
                 Text(
-                    text = "Название",
+                    text = stringResource(id = R.string.publication_title_string),
                     style = TextStyle(color = Color.Gray),
                     fontWeight = FontWeight.Bold,
                 )
             },
-            placeholder = { Text(text = "Название предмета...") },
+            placeholder = {
+                Text(
+                    text = stringResource(id = R.string.publication_title_placeholder_string)
+                )
+            },
             textStyle = TextStyle.Default.copy(fontSize = 24.sp),
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done,
@@ -145,12 +156,16 @@ fun AddPublicationScreen(
                 onValueChange = { if (it.length <= maxCharDescription) descriptionText = it },
                 label = {
                     Text(
-                        text = "Описание",
+                        text = stringResource(id = R.string.publication_description_label_string),
                         style = TextStyle(color = Color.Gray),
                         fontWeight = FontWeight.Bold,
                     )
                 },
-                placeholder = { Text(text = "Добавить описание..") },
+                placeholder = {
+                    Text(
+                        text = stringResource(id = R.string.publication_description_placeholder_string)
+                    )
+                },
                 textStyle = TextStyle.Default.copy(fontSize = 16.sp),
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Done,
@@ -171,12 +186,16 @@ fun AddPublicationScreen(
             onValueChange = { addressText = it },
             label = {
                 Text(
-                    text = "Адрес",
+                    text = stringResource(id = R.string.publication_address_label_string),
                     style = TextStyle(color = Color.Gray),
                     fontWeight = FontWeight.Bold,
                 )
             },
-            placeholder = { Text(text = "Указать адрес..") },
+            placeholder = {
+                Text(
+                    text = stringResource(id = R.string.publication_address_placeholder_string)
+                )
+            },
             textStyle = TextStyle.Default.copy(fontSize = 16.sp),
             modifier = Modifier.fillMaxWidth(),
             maxLines = 2,
@@ -198,12 +217,17 @@ fun AddPublicationScreen(
             singleLine = true,
             label = {
                 Text(
-                    text = "Номер",
+                    text = stringResource(id = R.string.publication_number_label_string),
                     style = TextStyle(color = Color.Gray),
                     fontWeight = FontWeight.Bold,
                 )
             },
-            placeholder = { Text(text = "Номер для связи..") },
+            visualTransformation = transformer,
+            placeholder = {
+                Text(
+                    text = stringResource(id = R.string.publication_number_placeholder_string)
+                )
+            },
             textStyle = TextStyle.Default.copy(fontSize = 16.sp),
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done,
@@ -220,7 +244,7 @@ fun AddPublicationScreen(
         //Кнопка для добавления
         Button(
             onClick = {
-                if (titlePublicationText.isNotBlank() && descriptionText.isNotBlank()
+                if (selectedPhotos != null && titlePublicationText.isNotBlank() && descriptionText.isNotBlank()
                     && addressText.isNotBlank() && numberText.isNotBlank()
                 ) {
                     val publication = TakeItEntity(
@@ -232,7 +256,7 @@ fun AddPublicationScreen(
                         numberText,
                     )
                     viewModel.insertData(publication)
-                    navController.navigate("my publication")
+                    navController.navigate("all_user_publication")
                     Toast
                         .makeText(context, "Публикация добавлена", Toast.LENGTH_SHORT)
                         .show()
@@ -247,7 +271,10 @@ fun AddPublicationScreen(
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp)
         ) {
-            Text(text = "Опубликовать", fontSize = 18.sp)
+            Text(
+                text = stringResource(id = R.string.publication_button_title_string),
+                fontSize = 18.sp
+            )
         }
     }
 }
