@@ -2,6 +2,7 @@ package com.example.takeitapp.domain.repository
 
 import com.example.takeitapp.domain.model.TakeItEntity
 import com.example.takeitapp.domain.model.TestMoviesEntity
+import kotlinx.coroutines.flow.Flow
 
 interface TakeItRepository {
 
@@ -11,5 +12,7 @@ interface TakeItRepository {
 
     suspend fun getDetailInfoPublication(): TakeItEntity
 
-    suspend fun getUserAllPublication(): List<TakeItEntity>
+    fun getUserAllPublication(): Flow<List<TakeItEntity>>
+
+    suspend fun deletePublicationUser(item: TakeItEntity)
 }

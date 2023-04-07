@@ -2,12 +2,18 @@ package com.example.takeitapp.data.repository
 
 import com.example.takeitapp.data.api.TakeItApi
 import com.example.takeitapp.data.local.dao.TakeItDao
+import com.example.takeitapp.data.local.model.TakeItDbModel
 import com.example.takeitapp.data.repository.mapper.toDto
 import com.example.takeitapp.data.repository.mapper.toEntity
 import com.example.takeitapp.domain.model.TakeItEntity
 import com.example.takeitapp.domain.model.TestMoviesEntity
 import com.example.takeitapp.domain.repository.TakeItRepository
 import com.example.takeitapp.utils.ApiHelper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class TakeItRepositoryImpl @Inject constructor(
@@ -16,10 +22,9 @@ class TakeItRepositoryImpl @Inject constructor(
     private val apiHelper: ApiHelper
 ) : TakeItRepository {
 
-    override suspend fun getUserAllPublication(): List<TakeItEntity> {
-        val data = dao.getAllPublication()
-        return data.map { it.toEntity() }
-    }
+    override fun getUserAllPublication(): Flow<List<TakeItEntity>> =
+      dao.getAllPublication().flatMapConcat { mapPublication(it) }.flowOn(Dispatchers.IO)
+
 
     override suspend fun savePublication(publication: TakeItEntity) {
         dao.insertPublication(publication.toDto())
@@ -37,4 +42,13 @@ class TakeItRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override suspend fun deletePublicationUser(item: TakeItEntity) {
+        dao.deletePublicationUser(item.toDto())
+    }
+
+    private fun mapPublication(publication: List<TakeItDbModel>) = flow {
+        emit(publication.map {item ->
+            item.toEntity()
+        })
+    }.flowOn(Dispatchers.IO)
 }

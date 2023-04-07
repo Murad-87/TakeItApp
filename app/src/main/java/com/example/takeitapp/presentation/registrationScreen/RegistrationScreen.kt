@@ -20,11 +20,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -35,8 +35,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.takeitapp.R
-import com.example.takeitapp.presentation.ui.theme.Shapes
-import com.example.takeitapp.utils.GuestDialog
+import com.example.takeitapp.utils.InputVisualTransformation
+import com.example.takeitapp.utils.MyAlertDialog
 
 @Composable
 fun RegistrationScreen(navController: NavController) {
@@ -46,12 +46,8 @@ fun RegistrationScreen(navController: NavController) {
     }
     val nameText = remember { mutableStateOf("") }
     val numberText = remember { mutableStateOf("") }
-    val passwordText = remember {
-        mutableStateOf("")
-    }
-    val dialogState = remember {
-        mutableStateOf(false)
-    }
+    val passwordText = remember { mutableStateOf("") }
+    val dialogState = remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -128,15 +124,26 @@ fun AddInfoRegistration(
 
     val context = LocalContext.current.applicationContext
     val focusManager = LocalFocusManager.current
-    val maxCharNumber = 11
+    val maxCharNumber = 10
     val maxCharName = 15
     val maxCharPassword = 10
     var remainingCharsName by remember { mutableStateOf(maxCharName) }
     var remainingCharsNumber by remember { mutableStateOf(maxCharNumber) }
     var remainingCharsPassword by remember { mutableStateOf(maxCharPassword) }
+    val mask = "+7 (000) 000-00-00"
+    val transformer = InputVisualTransformation(mask = mask)
 
     if (dialogState.value) {
-        GuestDialog(dialogState, navController)
+        MyAlertDialog(
+            title = stringResource(id = R.string.guest_dialog_title),
+            message = stringResource(id = R.string.guest_dialog_message),
+            onConfirm = {
+                dialogState.value = false
+                navController.navigate("home_screen")
+            },
+            onCancel = { dialogState.value = false },
+            dialogState = dialogState
+        )
     }
 
     Column(
@@ -158,12 +165,16 @@ fun AddInfoRegistration(
                 .padding(start = 8.dp, end = 8.dp),
             label = {
                 Text(
-                    text = "Имя",
+                    text = stringResource(id = R.string.registration_name_label_string),
                     fontSize = 16.sp,
                     style = TextStyle(color = Color.Black),
                 )
             },
-            placeholder = { Text(text = "Введите ваше имя") },
+            placeholder = {
+                Text(
+                    text = stringResource(id = R.string.registration_name_placeholder_string)
+                )
+            },
             maxLines = 1,
             textStyle = TextStyle.Default.copy(fontSize = 24.sp),
             colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -200,18 +211,23 @@ fun AddInfoRegistration(
                     remainingCharsNumber = maxCharNumber - it.length
                 }
             },
+            visualTransformation = transformer,
             leadingIcon = { Icon(imageVector = Icons.Default.Phone, contentDescription = "") },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 8.dp, end = 8.dp),
             label = {
                 Text(
-                    text = "Номер",
+                    text = stringResource(id = R.string.registration_number_label_string),
                     fontSize = 16.sp,
                     style = TextStyle(color = Color.Black)
                 )
             },
-            placeholder = { Text(text = "Введите ваш номер") },
+            placeholder = {
+                Text(
+                    text = stringResource(id = R.string.registration_number_placeholder_string)
+                )
+            },
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Number
@@ -259,7 +275,7 @@ fun AddInfoRegistration(
                 .padding(start = 8.dp, end = 8.dp),
             label = {
                 Text(
-                    text = "Пароль",
+                    text = stringResource(id = R.string.registration_password_label_string),
                     fontSize = 16.sp,
                     style = TextStyle(color = Color.Black),
                 )
@@ -300,16 +316,19 @@ fun AddInfoRegistration(
                     Toast.makeText(context, "Заполните все поля", Toast.LENGTH_SHORT).show()
                 }
             },
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp)
         ) {
-            Text(text = "Сохранить", fontSize = 18.sp)
+            Text(
+                text = stringResource(id = R.string.registration_button_title_string),
+                fontSize = 18.sp
+            )
         }
         Spacer(modifier = Modifier.height(10.dp))
         Text(
-            text = "Зайти как гость",
+            text = stringResource(id = R.string.registration_go_to_guest),
             style = TextStyle(textDecoration = TextDecoration.Underline, color = Color.Black),
             fontSize = 18.sp,
             modifier = Modifier.clickable {

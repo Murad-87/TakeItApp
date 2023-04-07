@@ -24,7 +24,7 @@ fun DrawerHeader() {
     Column(modifier = Modifier
         .background(color = Color.LightGray)
         .fillMaxWidth()
-        .padding(horizontal = 10.dp, vertical = 8.dp),
+        .padding(horizontal = 14.dp, vertical = 8.dp),
     horizontalAlignment = Alignment.Start) {
         Image(
             painter = painterResource(id = R.drawable.ic_drawer_photo),
@@ -56,7 +56,7 @@ fun DrawerBody(
                     .clickable {
                         onItemClick(item)
                     }
-                    .padding(10.dp)
+                    .padding(horizontal = 14.dp, vertical = 8.dp)
             ) {
                 Icon(imageVector = item.icon,
                     contentDescription = item.contentDescription)
