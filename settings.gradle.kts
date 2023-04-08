@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "TakeItApp"
-include ':app'
+include(":app")
