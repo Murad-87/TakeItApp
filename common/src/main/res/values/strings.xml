@@ -1,0 +1,7 @@
+<resources>
+
+    <!--  Ресурсы для диалога  -->
+    <string name="confirm_button_yes_string">Да</string>
+    <string name="dismiss_button_cancel_string">Отмена</string>
+
+</resources>

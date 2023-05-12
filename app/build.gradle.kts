@@ -52,6 +52,15 @@ android {
 
 dependencies {
 
+    implementation(project(":feature-home"))
+    implementation(project(":feature-messages"))
+    implementation(project(":feature-settings"))
+    implementation(project(":feature-api"))
+    implementation(project(":feature-add-publication"))
+    implementation(project(":authentication-flow"))
+    implementation(project(":feature-user-publication"))
+    implementation(project(":ui-kit"))
+
     implementation(Dependencies.core)
     implementation(Dependencies.lifecycleRuntime)
     implementation(Dependencies.activityCompose)

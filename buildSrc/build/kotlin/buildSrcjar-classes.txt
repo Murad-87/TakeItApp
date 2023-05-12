@@ -1,0 +1,1 @@
+D:\TakeItApp\buildSrc\build\classes\kotlin\main\AppConfig.class;D:\TakeItApp\buildSrc\build\classes\kotlin\main\Dependencies.class;D:\TakeItApp\buildSrc\build\classes\kotlin\main\Versions.class
