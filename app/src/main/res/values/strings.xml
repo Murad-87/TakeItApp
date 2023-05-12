@@ -1,34 +1,34 @@
 <resources>
     <string name="app_name">TakeItApp</string>
 
-    <!--  Ресурсы для диалога  -->
-    <string name="guest_dialog_title">Без регистрации</string>
-    <string name="guest_dialog_message">Вы не сможете выкладывать свои публикации. Продолжить?</string>
-    <string name="confirm_button_yes_string">Да</string>
-    <string name="dismiss_button_cancel_string">Отмена</string>
+<!--    &lt;!&ndash;  Ресурсы для диалога  &ndash;&gt;-->
+<!--    <string name="guest_dialog_title">Без регистрации</string>-->
+<!--    <string name="guest_dialog_message">Вы не сможете выкладывать свои публикации. Продолжить?</string>-->
+<!--    <string name="confirm_button_yes_string">Да</string>-->
+<!--    <string name="dismiss_button_cancel_string">Отмена</string>-->
 
-    <!--  Add publication screen  -->
-    <string name="select_photo_string">Выберите фото</string>
-    <string name="add_photo_string">Добавить фото</string>
-    <string name="publication_title_string">Название</string>
-    <string name="publication_title_placeholder_string">Название предмета…</string>
-    <string name="publication_description_label_string">Описание</string>
-    <string name="publication_description_placeholder_string">Добавить описание…</string>
-    <string name="publication_address_label_string">Адрес</string>
-    <string name="publication_address_placeholder_string">Указать адрес…</string>
-    <string name="publication_number_label_string">Номер</string>
-    <string name="publication_number_placeholder_string">Номер для связи…</string>
-    <string name="publication_button_title_string">Опубликовать</string>
+<!--    &lt;!&ndash;  Add publication screen  &ndash;&gt;-->
+<!--    <string name="select_photo_string">Выберите фото</string>-->
+<!--    <string name="add_photo_string">Добавить фото</string>-->
+<!--    <string name="publication_title_string">Название</string>-->
+<!--    <string name="publication_title_placeholder_string">Название предмета…</string>-->
+<!--    <string name="publication_description_label_string">Описание</string>-->
+<!--    <string name="publication_description_placeholder_string">Добавить описание…</string>-->
+<!--    <string name="publication_address_label_string">Адрес</string>-->
+<!--    <string name="publication_address_placeholder_string">Указать адрес…</string>-->
+<!--    <string name="publication_number_label_string">Номер</string>-->
+<!--    <string name="publication_number_placeholder_string">Номер для связи…</string>-->
+<!--    <string name="publication_button_title_string">Опубликовать</string>-->
 
-    <!--  Registration screen  -->
-    <string name="registration_name_label_string">Имя</string>
-    <string name="registration_name_placeholder_string">Введите ваше имя</string>
-    <string name="registration_number_label_string">Номер</string>
-    <string name="registration_number_placeholder_string">Введите ваш номер</string>
-    <string name="registration_password_label_string">Пароль</string>
-    <string name="registration_button_title_string">Сохранить</string>
-    <string name="registration_go_to_guest">Зайти как гость</string>
+<!--    &lt;!&ndash;  Registration screen  &ndash;&gt;-->
+<!--    <string name="registration_name_label_string">Имя</string>-->
+<!--    <string name="registration_name_placeholder_string">Введите ваше имя</string>-->
+<!--    <string name="registration_number_label_string">Номер</string>-->
+<!--    <string name="registration_number_placeholder_string">Введите ваш номер</string>-->
+<!--    <string name="registration_password_label_string">Пароль</string>-->
+<!--    <string name="registration_button_title_string">Сохранить</string>-->
+<!--    <string name="registration_go_to_guest">Зайти как гость</string>-->
 
-    <!--  All publication user screen  -->
-    <string name="all_publication_user_no_publications">У вас еще нет своих публикаций.</string>
+<!--    &lt;!&ndash;  All publication user screen  &ndash;&gt;-->
+<!--    <string name="all_publication_user_no_publications">У вас еще нет своих публикаций.</string>-->
 </resources>
