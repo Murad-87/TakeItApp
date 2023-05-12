@@ -3,15 +3,15 @@ object Versions {
     const val coreVersion = "1.7.0"
     const val lifecycleRuntimeVersion = "2.3.1"
     const val activityComposeVersion = "1.3.1"
-    const val composeUiVersion = "1.1.1"
-    const val composeUiToolingPreviewVersion = "1.1.1"
-    const val composeMaterialVersion = "1.1.1"
+    const val composeUiVersion = "1.2.0"
+    const val composeUiToolingPreviewVersion = "1.2.0"
+    const val composeMaterialVersion = "1.2.0"
     const val junitVersion = "4.13.2"
     const val testExtJunitVersion = "1.1.5"
     const val espressoCoreVersion = "3.5.1"
-    const val composeUiTestJunitVersion = "1.1.1"
-    const val composeUiToolingVersion = "1.1.1"
-    const val composeUiTestManifestVersion = "1.1.1"
+    const val composeUiTestJunitVersion = "1.2.0"
+    const val composeUiToolingVersion = "1.2.0"
+    const val composeUiTestManifestVersion = "1.2.0"
 
     //ViewModel for Compose
     const val lifecycleViewModelComposeVersion = "2.5.1"
@@ -25,7 +25,7 @@ object Versions {
 
     //Dagger-Hilt
     const val daggerHiltVersion = "2.45"
-    const val daggerHiltCompilerVersion = "2.42"
+    const val daggerHiltCompilerVersion = "2.45"
 
     // Room
     const val roomRuntimeVersion = "2.5.0"
