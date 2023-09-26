@@ -41,7 +41,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.1.1"
+        kotlinCompilerExtensionVersion = "1.2.0"
     }
     packagingOptions {
         resources {
@@ -51,6 +51,16 @@ android {
 }
 
 dependencies {
+
+    implementation(project(":feature-home"))
+    implementation(project(":feature-messages"))
+    implementation(project(":feature-settings"))
+    implementation(project(":feature-api"))
+    implementation(project(":feature-add-publication"))
+    implementation(project(":authentication-flow"))
+    implementation(project(":feature-user-publication"))
+    implementation(project(":ui-kit"))
+    implementation(project(":common"))
 
     implementation(Dependencies.core)
     implementation(Dependencies.lifecycleRuntime)

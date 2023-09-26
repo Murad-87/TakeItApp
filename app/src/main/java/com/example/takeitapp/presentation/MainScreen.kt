@@ -14,12 +14,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.takeitapp.presentation.navigation.MyNavGraph
-import com.example.takeitapp.presentation.ui.bottom_navigation.MyBottomNavigation
-import com.example.takeitapp.presentation.ui.drawer_app.DrawerBody
-import com.example.takeitapp.presentation.ui.drawer_app.DrawerHeader
-import com.example.takeitapp.presentation.ui.drawer_app.DrawerMenuItem
-import com.example.takeitapp.presentation.ui.topbar.MyTopAppBar
+import com.example.takeitapp.navigation.MyNavGraph
+import com.mytakeitapp.ui_kit.ui.bottom_navigation.MyBottomNavigation
+import com.mytakeitapp.ui_kit.ui.drawer_app.DrawerBody
+import com.mytakeitapp.ui_kit.ui.drawer_app.DrawerHeader
+import com.mytakeitapp.ui_kit.ui.drawer_app.DrawerMenuItem
+import com.mytakeitapp.ui_kit.ui.topbar.MyTopAppBar
 import kotlinx.coroutines.launch
 
 @Composable
@@ -82,6 +82,7 @@ fun MainScreen() {
         },
         topBar = {
             if (showTopAppBar) MyTopAppBar(
+                title = "Take it",
                 onNavigationItemClick = {
                     scope.launch {
                         scaffoldState.drawerState.open()
