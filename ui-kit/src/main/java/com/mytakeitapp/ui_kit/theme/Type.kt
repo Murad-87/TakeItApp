@@ -1,4 +1,4 @@
-package com.example.takeitapp.presentation.ui.theme
+package com.mytakeitapp.ui_kit.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

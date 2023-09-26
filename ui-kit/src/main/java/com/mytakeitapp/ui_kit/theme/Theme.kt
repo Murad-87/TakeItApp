@@ -8,7 +8,9 @@ import androidx.compose.runtime.Composable
 import com.mytakeitapp.ui_kit.theme.Purple200
 import com.mytakeitapp.ui_kit.theme.Purple500
 import com.mytakeitapp.ui_kit.theme.Purple700
+import com.mytakeitapp.ui_kit.theme.Shapes
 import com.mytakeitapp.ui_kit.theme.Teal200
+import com.mytakeitapp.ui_kit.theme.Typography
 
 private val DarkColorPalette = darkColors(
     primary = Purple200,

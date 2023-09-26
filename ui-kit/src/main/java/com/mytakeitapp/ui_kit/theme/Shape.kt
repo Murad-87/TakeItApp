@@ -1,4 +1,4 @@
-package com.example.takeitapp.presentation.ui.theme
+package com.mytakeitapp.ui_kit.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

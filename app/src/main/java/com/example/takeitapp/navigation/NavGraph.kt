@@ -12,6 +12,7 @@ import com.example.feature_home.presentation.publicationDetailsScreen.Publicatio
 import com.mytakeitapp.authentication_flow.presentation.loginScreen.LoginScreen
 import com.mytakeitapp.authentication_flow.presentation.registrationScreen.RegistrationScreen
 import com.mytakeitapp.authentication_flow.presentation.splashScreen.SplashScreenApp
+import com.mytakeitapp.common.utils.NavigationScreens
 import com.mytakeitapp.feature_add_publication.presentation.addPublicationScreen.AddPublicationScreen
 import com.mytakeitapp.feature_add_publication.presentation.addPublicationScreen.AddPublicationViewModel
 import com.mytakeitapp.feature_messages.presentation.messagesScreen.MessagesScreen

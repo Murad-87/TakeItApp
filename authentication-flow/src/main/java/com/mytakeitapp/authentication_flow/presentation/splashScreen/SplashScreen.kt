@@ -16,8 +16,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import kotlinx.coroutines.delay
 import com.mytakeitapp.authentication_flow.R
+import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreenApp(navController: NavController) {
@@ -31,7 +31,9 @@ fun SplashScreenApp(navController: NavController) {
     LaunchedEffect(key1 = true) {
         startAnimate = true
         delay(2500)
-        navController.navigate("registration_screen")
+        navController.navigate("registration_screen") {
+            popUpTo("splash_screen") { inclusive = true }
+        }
     }
     Splash(alpha = alphaAnimation.value)
 }

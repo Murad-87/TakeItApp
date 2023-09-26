@@ -50,6 +50,8 @@ dependencies {
 
     //Hilt navigation compose
     implementation(Dependencies.hiltNavigationCompose)
+    implementation("androidx.test.ext:junit-ktx:1.1.5")
+    androidTestImplementation("junit:junit:4.12")
     kapt(Dependencies.hiltCompiler)
 
     // Dagger - Hilt
