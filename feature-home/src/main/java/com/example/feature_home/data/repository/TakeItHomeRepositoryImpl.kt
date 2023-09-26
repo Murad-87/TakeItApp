@@ -1,4 +1,4 @@
-package com.example.feature_home.data
+package com.example.feature_home.data.repository
 
 import com.example.feature_home.data.mapper.toEntity
 import com.example.feature_home.domain.model.TestMoviesEntity

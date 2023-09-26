@@ -1,4 +1,4 @@
-package com.example.takeitapp.navigation
+package com.mytakeitapp.common.utils
 
 sealed class NavigationScreens(val route: String) {
     object SplashScreen : NavigationScreens(route = "splash_screen")

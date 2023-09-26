@@ -60,6 +60,7 @@ dependencies {
     implementation(project(":authentication-flow"))
     implementation(project(":feature-user-publication"))
     implementation(project(":ui-kit"))
+    implementation(project(":common"))
 
     implementation(Dependencies.core)
     implementation(Dependencies.lifecycleRuntime)

@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -15,6 +16,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,6 +31,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,6 +40,8 @@ import coil.compose.AsyncImage
 import com.mytakeitapp.authentication_flow.R
 import com.mytakeitapp.common.utils.InputVisualTransformation
 import com.mytakeitapp.common.utils.MyAlertDialog
+import com.mytakeitapp.common.utils.NavigationScreens
+import com.mytakeitapp.ui_kit.theme.DarkGray
 
 @Composable
 fun RegistrationScreen(navController: NavController) {
@@ -52,7 +57,7 @@ fun RegistrationScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp),
+            .padding(start = 20.dp, end = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "Регистрация", fontSize = 26.sp, modifier = Modifier.padding(top = 10.dp))
@@ -84,13 +89,20 @@ fun AddPhotoRegistration(
     Surface(
         modifier = Modifier
             .size(240.dp)
+            .clip(shape = CircleShape)
             .border(2.dp, color = Color.Black, shape = CircleShape)
-            .clickable {
-                launcher.launch("image/*")
-                Toast
-                    .makeText(context, "Выберите фото", Toast.LENGTH_SHORT)
-                    .show()
-            },
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = rememberRipple(
+                    color = Color.Black
+                ),
+                onClick = {
+                    launcher.launch("image/*")
+                    Toast
+                        .makeText(context, "Выберите фото", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            ),
     ) {
         if (selectPhotoForRegistration.value != null) {
             AsyncImage(
@@ -132,6 +144,9 @@ fun AddInfoRegistration(
     var remainingCharsPassword by remember { mutableStateOf(maxCharPassword) }
     val mask = "+7 (000) 000-00-00"
     val transformer = InputVisualTransformation(mask = mask)
+    var isVisibilityPasswordIcon by remember {
+        mutableStateOf(true)
+    }
 
     if (dialogState.value) {
         MyAlertDialog(
@@ -139,7 +154,11 @@ fun AddInfoRegistration(
             message = stringResource(id = R.string.guest_dialog_message),
             onConfirm = {
                 dialogState.value = false
-                navController.navigate("home_screen")
+                navController.navigate("home_screen") {
+                    popUpTo(route = NavigationScreens.RegistrationScreen.route) {
+                        inclusive = true
+                    }
+                }
             },
             onCancel = { dialogState.value = false },
             dialogState = dialogState
@@ -161,8 +180,7 @@ fun AddInfoRegistration(
                 }
             },
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 8.dp, end = 8.dp),
+                .fillMaxWidth(),
             label = {
                 Text(
                     text = stringResource(id = R.string.registration_name_label_string),
@@ -214,8 +232,7 @@ fun AddInfoRegistration(
             visualTransformation = transformer,
             leadingIcon = { Icon(imageVector = Icons.Default.Phone, contentDescription = "") },
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 8.dp, end = 8.dp),
+                .fillMaxWidth(),
             label = {
                 Text(
                     text = stringResource(id = R.string.registration_number_label_string),
@@ -259,10 +276,17 @@ fun AddInfoRegistration(
         OutlinedTextField(
             value = passwordText.value,
             leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_password),
-                    contentDescription = ""
-                )
+                IconButton(onClick = { isVisibilityPasswordIcon = !isVisibilityPasswordIcon }) {
+                    Icon(
+                        painter = if (isVisibilityPasswordIcon) {
+                            painterResource(id = R.drawable.password_visibility)
+                        } else {
+                            painterResource(id = R.drawable.ic_visibility_password_off)
+                        },
+                        contentDescription = ""
+                    )
+                }
+
             },
             onValueChange = {
                 if (it.length <= maxCharPassword) {
@@ -271,8 +295,7 @@ fun AddInfoRegistration(
                 }
             },
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 8.dp, end = 8.dp),
+                .fillMaxWidth(),
             label = {
                 Text(
                     text = stringResource(id = R.string.registration_password_label_string),
@@ -280,7 +303,11 @@ fun AddInfoRegistration(
                     style = TextStyle(color = Color.Black),
                 )
             },
-            visualTransformation = PasswordVisualTransformation(),
+            visualTransformation = if (isVisibilityPasswordIcon) {
+                PasswordVisualTransformation()
+            } else {
+                VisualTransformation.None
+            },
             textStyle = TextStyle.Default.copy(fontSize = 16.sp),
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done,
@@ -309,7 +336,7 @@ fun AddInfoRegistration(
         Spacer(modifier = Modifier.height(10.dp))
         Button(
             onClick = {
-                if (nameText.value.isNotBlank() && numberText.value.isNotBlank()) {
+                if ( numberText.value.isNotBlank() && passwordText.value.isNotBlank()) {
                     // TODO переход на экран MyHomeScreen
                     Toast.makeText(context, "Переход на галвный экран", Toast.LENGTH_SHORT).show()
                 } else {
@@ -318,8 +345,7 @@ fun AddInfoRegistration(
             },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan),
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp)
+                .fillMaxWidth(),
         ) {
             Text(
                 text = stringResource(id = R.string.registration_button_title_string),
@@ -330,10 +356,17 @@ fun AddInfoRegistration(
         Text(
             text = stringResource(id = R.string.registration_go_to_guest),
             style = TextStyle(textDecoration = TextDecoration.Underline, color = Color.Black),
+            color = DarkGray,
             fontSize = 18.sp,
-            modifier = Modifier.clickable {
-                dialogState.value = true
-            }
+            modifier = Modifier.clickable (
+                interactionSource = remember { MutableInteractionSource() },
+                indication = rememberRipple(
+                    color = Color.Black
+                ),
+                onClick = {
+                    dialogState.value = true
+                }
+            )
         )
     }
 }

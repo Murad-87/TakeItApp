@@ -82,6 +82,7 @@ fun MainScreen() {
         },
         topBar = {
             if (showTopAppBar) MyTopAppBar(
+                title = "Take it",
                 onNavigationItemClick = {
                     scope.launch {
                         scaffoldState.drawerState.open()
