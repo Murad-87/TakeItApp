@@ -3,8 +3,8 @@
     <!--  Registration screen  -->
     <string name="registration_name_label_string">Имя</string>
     <string name="registration_name_placeholder_string">Введите ваше имя</string>
-    <string name="registration_number_label_string">Номер</string>
-    <string name="registration_number_placeholder_string">Введите ваш номер</string>
+    <string name="registration_number_label_string">Email</string>
+    <string name="registration_number_placeholder_string">Введите ваш email</string>
     <string name="registration_password_label_string">Пароль</string>
     <string name="registration_button_title_string">Сохранить</string>
     <string name="registration_go_to_guest">Зайти как гость</string>

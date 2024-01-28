@@ -14,8 +14,8 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -50,7 +50,7 @@ fun RegistrationScreen(navController: NavController) {
         mutableStateOf<Uri?>(null)
     }
     val nameText = remember { mutableStateOf("") }
-    val numberText = remember { mutableStateOf("") }
+    val emailText = remember { mutableStateOf("") }
     val passwordText = remember { mutableStateOf("") }
     val dialogState = remember { mutableStateOf(false) }
 
@@ -66,7 +66,7 @@ fun RegistrationScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(10.dp))
         AddInfoRegistration(
             nameText = nameText,
-            numberText = numberText,
+            emailText = emailText,
             passwordText = passwordText,
             dialogState = dialogState,
             navController = navController
@@ -128,7 +128,7 @@ fun AddPhotoRegistration(
 @Composable
 fun AddInfoRegistration(
     nameText: MutableState<String>,
-    numberText: MutableState<String>,
+    emailText: MutableState<String>,
     passwordText: MutableState<String>,
     dialogState: MutableState<Boolean>,
     navController: NavController
@@ -136,11 +136,11 @@ fun AddInfoRegistration(
 
     val context = LocalContext.current.applicationContext
     val focusManager = LocalFocusManager.current
-    val maxCharNumber = 10
+    val maxCharEmail = 100
     val maxCharName = 15
     val maxCharPassword = 10
     var remainingCharsName by remember { mutableStateOf(maxCharName) }
-    var remainingCharsNumber by remember { mutableStateOf(maxCharNumber) }
+    var remainingCharsEmail by remember { mutableStateOf(maxCharEmail) }
     var remainingCharsPassword by remember { mutableStateOf(maxCharPassword) }
     val mask = "+7 (000) 000-00-00"
     val transformer = InputVisualTransformation(mask = mask)
@@ -220,17 +220,17 @@ fun AddInfoRegistration(
 
         Spacer(modifier = Modifier.height(6.dp))
 
-        // Поле для ввода номера
+        // Поле для ввода email
         OutlinedTextField(
-            value = numberText.value,
+            value = emailText.value,
             onValueChange = {
-                if (it.length <= maxCharNumber) {
-                    numberText.value = it
-                    remainingCharsNumber = maxCharNumber - it.length
+                if (it.length <= maxCharEmail) {
+                    emailText.value = it
+                    remainingCharsEmail = maxCharEmail - it.length
                 }
             },
-            visualTransformation = transformer,
-            leadingIcon = { Icon(imageVector = Icons.Default.Phone, contentDescription = "") },
+            //visualTransformation = transformer,
+            leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "") },
             modifier = Modifier
                 .fillMaxWidth(),
             label = {
@@ -247,7 +247,7 @@ fun AddInfoRegistration(
             },
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Number
+                keyboardType = KeyboardType.Email
             ),
             keyboardActions = KeyboardActions(
                 onDone = { focusManager.clearFocus() }
@@ -258,12 +258,12 @@ fun AddInfoRegistration(
                 focusedBorderColor = Color.Black
             ),
             trailingIcon = {
-                val remainingTextNumber = "${remainingCharsNumber}/${maxCharNumber}"
+                val remainingTextEmail = "${remainingCharsEmail}/${maxCharEmail}"
                 Box(contentAlignment = Alignment.BottomEnd) {
                     Text(
-                        text = remainingTextNumber,
+                        text = remainingTextEmail,
                         fontSize = 14.sp,
-                        color = if (remainingCharsNumber <= 0) Color.Red else Color.Black,
+                        color = if (remainingCharsEmail <= 0) Color.Red else Color.Black,
                         modifier = Modifier.widthIn(60.dp)
                     )
                 }
@@ -336,7 +336,7 @@ fun AddInfoRegistration(
         Spacer(modifier = Modifier.height(10.dp))
         Button(
             onClick = {
-                if ( numberText.value.isNotBlank() && passwordText.value.isNotBlank()) {
+                if ( emailText.value.isNotBlank() && passwordText.value.isNotBlank()) {
                     // TODO переход на экран MyHomeScreen
                     Toast.makeText(context, "Переход на галвный экран", Toast.LENGTH_SHORT).show()
                 } else {
